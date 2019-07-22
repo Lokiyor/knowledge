@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false" scan="false">
+    <!-- 以下配置 当文件命名位 logback-spring.xml 时生效 用于获得spring中的相关属性 -->
+    <!-- <springProperty scop="context" name="spring.application.name" source="spring.application.name" defaultValue=""/> -->
+    <property name="spring.application.name" value="lokiy-app">
+    <property name="log.path" value="logs/${spring.application.name}"/>
+
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
+    <!-- 开启后可以通过jmx动态控制日志级别(springboot Admin的功能) -->
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--<File>/home/hfw-client/hfw_log/stdout.log</File>-->
+        <file>${log.path}/${spring.application.name}.log</file>
+        <encoder>
+            <pattern>%date [%thread] %-5level [%logger{50}] %file:%line - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 添加.gz 历史日志会启用压缩 大大缩小日志文件所占空间 -->
+            <fileNamePattern>${log.path}/${spring.application.name}.log.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory><!--  保留30天日志 -->
+        </rollingPolicy>
+    </appender>
+
+    <!-- 以下为定位dao层位置,用于打印sql日志 -->
+    <!-- <logger name="com.landleaf.ibsaas.common.dao" level="INFO" /> -->
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </root>
+
+</configuration>
