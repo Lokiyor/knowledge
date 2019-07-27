@@ -1,8 +1,41 @@
 # Linux的一些服务器指令
-## 查看服务器信息
+## 基本操作
+1. 清空某个文件
+```
+echo "" > XXX.log
+```
+2. 拷贝 tomcatHr下所有子文件 为tomcatCe
+```
+cp -r tomcatHr tomcatCe
+```
 
+## 查看服务器信息
+1. 查看CPU信息
+```
+cat /proc/cpuinfo
+```
+2. 查看物理CPU的个数:
+```
+cat /proc/cpuinfo |grep "physical id"|sort |uniq|wc -l
+```
+3. 查看逻辑CPU的个数:
+```
+cat /proc/cpuinfo |grep "processor"|wc -l
+```
+4. 查看CPU是几核:
+```
+cat /proc/cpuinfo |grep "cores"|uniq
+```
+5. 查看磁盘:
+```
+ps aux|grep 文件
+```
 
 ## 压缩/解压
+### 安装压缩解压软件
+```
+yum -y install lrzsz
+```
 * 压缩
 1. 将目录里所有jpg文件打包成tar.jpg 
 ``` 
