@@ -37,7 +37,7 @@ ps aux|grep 文件
 yum -y install lrzsz
 ```
 * 压缩
-1. 将目录里所有jpg文件打包成tar.jpg 
+1. 将目录里所有jpg文件打包成jpg.tar
 ``` 
 tar -cvf jpg.tar *.jpg
 ```
