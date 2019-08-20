@@ -4,7 +4,8 @@
 1. 直接下载已编译好的包,解压后直接使用
 ```
 $ wget https://nodejs.org/dist/v10.16.1/node-v10.16.1-linux-x64.tar.gz
-$ tar -zxvf node-v10.16.1-linux-x64.tar.xz
+$ xz -d node-v10.16.1-linux-x64.tar.xz
+$ tar -xvf node-v10.16.1-linux-x64.tar
 $ cd node-v10.16.1-linux-x64/
 ```
 2. 用 ln 命令来设置软连接来设置全局配置
