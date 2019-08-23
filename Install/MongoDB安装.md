@@ -35,9 +35,9 @@ $ touch /etc/mongodb.conf
 $ vim /etc/mongodb.conf
 
 #数据库数据存放目录
-dbpath=/usr/local/mongodb/data
+dbpath=/var/lib/mongodb/
 #数据库日志存放目录
-logpath=/usr/local/mongodb/logs/mongodb.log 
+logpath=/var/log/mongodb/mongodb.log
 #以追加的方式记录日志
 logappend = true
 #端口号 默认为27017
@@ -57,6 +57,8 @@ quiet=true
 ```
 5. 启动服务
 * 进入相应目录，之后启动服务
+* /usr/bin/mongo 
+* /usr/bin/mongod
 ```
 $ ./mongod --config /etc/mongodb.conf
 ```
