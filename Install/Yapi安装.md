@@ -7,11 +7,11 @@
     + MongoDB > 2.6
     + git
 ### 安装NodeJS
-[链接](链接)
+[https://github.com/Lokiyor/knowledge/blob/master/Install/Git%E5%AE%89%E8%A3%85.md](https://github.com/Lokiyor/knowledge/blob/master/Install/Git%E5%AE%89%E8%A3%85.md)
 ### 安装MongoDB
-[链接](链接)
+[https://github.com/Lokiyor/knowledge/blob/master/Install/MongoDB%E5%AE%89%E8%A3%85.md](https://github.com/Lokiyor/knowledge/blob/master/Install/MongoDB%E5%AE%89%E8%A3%85.md)
 ### 安装Git
-[链接](链接)
+[https://github.com/Lokiyor/knowledge/blob/master/Install/NodeJS%E5%AE%89%E8%A3%85.md](https://github.com/Lokiyor/knowledge/blob/master/Install/NodeJS%E5%AE%89%E8%A3%85.md)
 ## 搭建YApi环境
 ### 搭建YApi
 1. 准备环境搭建完成后，开始搭建YApi，安装命令
