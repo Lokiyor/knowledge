@@ -64,6 +64,8 @@ $ ./mongod --config /etc/mongodb.conf
 ```
 ### CentOS 安装mongodb
 
+
+
 ## 可视化界面安装
 ### Robo 3T 安装
 * 下载地址：[https://robomongo.org/download](https://robomongo.org/download)
