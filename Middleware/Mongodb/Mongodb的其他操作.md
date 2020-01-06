@@ -1,4 +1,5 @@
 # Mongodb的其他操作
+文章来源：[https://www.runoob.com/mongodb/mongodb-tutorial.html](https://www.runoob.com/mongodb/mongodb-tutorial.html)
 ## MongoDB 复制（副本集）
 MongoDB复制是将数据同步在多个服务器的过程。
 ### 副本集设置
