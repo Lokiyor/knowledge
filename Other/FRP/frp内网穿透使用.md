@@ -16,8 +16,8 @@ bind_port = 7000
 # 设置dashboard服务登陆端口
 dashboard_port = 7500
 # 设置dashboard登录信息
-dashboard_user = landleaf
-dashboard_pwd = landleaf@2019
+dashboard_user = xxx
+dashboard_pwd = xxxxxx
 
 # 设置日志显示级别{debug, info, warn, error)
 log_level = info
@@ -27,7 +27,7 @@ log_max_days = 5
 # 设置特权模式是否开启，开通后web,ssh等使用都可以直接在客户端设置
 privilege_mode = true
 # 设置特权模式token值
-privilege_token = landleaf@2019
+privilege_token = xxxxxx
 
 # 设置转发端口(http转发端口只以最后一个为主)
 vhost_http_port = 7200
@@ -59,14 +59,14 @@ type = tcp
 # 本地应用的端口
 local_port = 9097
 # 外网访问的地址(可以通过域名和子域名绑定)
-custom_domains = 40.73.71.124
+custom_domains = xx.xx.xx.xxx
 # 绑定服务端外网访问的端口
 remote_port = 9097
 
 [web02]
 type = tcp
 local_port = 9098
-custom_domains = 40.73.71.124
+custom_domains = xx.xx.xx.xxx
 remote_port = 9098
 
 
