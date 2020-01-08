@@ -18,6 +18,6 @@ $ docker pull redis:latest
 #### 启动Redis
 使用以下命令启动redis
 ```
-$ docker run -p 6379:6379 --name es_redis -v /usr/local/docker/redis.conf:/data/docker/redis/config/redis.conf -v /usr/local/docker/data:/data/docker/redis/data -d redis redis-server /data/docker/redis/config/redis.conf --appendonly yes
+$ docker run -p 6379:6379 --name es_redis -v /data/docker/redis/config/redis.conf:/etc/redis/redis.conf -v /data/docker/redis/data:/data -d redis redis-server /etc/redis/redis.conf --appendonly yes
 ```
 > 记得对外开放6379端口
