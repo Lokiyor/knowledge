@@ -55,3 +55,21 @@ source /etc/profile         //使配置立即生效
 ## 检查JAVA安装和配置情况
 - java -version
 - javac 
+
+
+
+
+
+## Ubuntu安装JAVA
+1. 更新软件包列表：
+```
+$ sudo apt-get update
+```
+2. 安装openjdk-8-jdk：
+```
+$sudo apt-get install openjdk-8-jdk
+```
+3. 查看java版本，看看是否安装成功：
+```
+$ java -version
+```
