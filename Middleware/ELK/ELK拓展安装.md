@@ -76,6 +76,27 @@ output.redis:
 $ nohup /usr/local/filebeat/filebeat-7.5.1-linux-x86_64/filebeat -e -c /usr/local/filebeat/config/filebeat.yml &
 ```
 
+> 推荐使用rpm安装filebeat, 上述不能后台运行
+
+
+#### rpm安装filebeat
+1. 下载远程包
+```
+$ curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.5.1-x86_64.rpm
+```
+2. 安装
+```
+$ rpm -ivh filebeat-7.5.1-x86_64.rpm --force --nodeps
+```
+3. 配置文件
+```
+$ vim /etc/filebeat/filebeat.yml
+```
+4. 启动
+```
+$ service filebeat start
+```
+
 ## 编辑修改
 #### 修改Logstash 相关配置
 1. 修改logstash.conf的输入输出配置
