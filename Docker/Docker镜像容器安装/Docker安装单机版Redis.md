@@ -13,7 +13,7 @@ $ docker pull redis:latest
 - databases 16      #数据库个数（可选），我修改了这个只是查看是否生效。。
 - dir ./            #输入本地redis数据库存放文件夹（可选）
 - appendonly yes    #redis持久化（可选）
-- requirepass Landleaf@2020     #设置访问密码
+- requirepass 123456     #设置访问密码
 
 #### 启动Redis
 使用以下命令启动redis
