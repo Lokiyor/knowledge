@@ -10,3 +10,98 @@
 
 ## 安装Filebeat
 安装日志收集中间件filebeat
+#### 下载安装包
+安装包地址：[https://www.elastic.co/cn/downloads/beats/filebeat](https://www.elastic.co/cn/downloads/beats/filebeat)
+
+#### 上传并解压安装包
+上传安装包到需要收集日志的服务器
+```
+$ tar -zxvf filebeat-7.5.1-linux-x86_64.tar.gz
+```
+#### 修改配置文件
+修改fiblebeat.yml的input和output信息
+```
+# 日志来源
+filebeat.inputs:
+
+#单个日志来源
+- type: log
+  enabled: true
+  #日志路径
+  paths:
+    - /home/software/aaa/nohup.out
+    #额外参数
+  fields:
+    level: info
+    app: aaa
+    host: xxx.xxx.xxx.xxx
+    env: prod
+    #日志收集格式
+  #multiline.pattern: ^\[[0‐9]{14}\]
+  #multiline.negate: true
+  #multiline.match: after
+
+- type: log
+  enabled: true
+  paths:
+    - /home/software/bbb/nohup.out
+  fields:
+    level: info
+    app: bbb
+    host: xxx.xxx.xxx.xxx
+    env: prod
+    #multiline.pattern: ^\[[0‐9]{14}\]
+    #multiline.negate: true
+    #multiline.match: after
+
+
+
+output.redis:
+  # Array of hosts to connect to.
+  #输出到redis的机器
+   hosts: ["xxx.xxx.xxx.xxx:6379"]   
+   password: 123456
+   #redis中日志数据的key值ֵ 
+   #日志收的key
+   key: sh             
+   #使用的数据库         
+   db: 0
+   #超时时间 尽量长一点
+   timeout: 60
+```
+
+#### 后台启动
+后台命令启动
+```
+$ nohup /usr/local/filebeat/filebeat-7.5.1-linux-x86_64/filebeat -e -c /usr/local/filebeat/config/filebeat.yml &
+```
+
+## 编辑修改
+#### 修改Logstash 相关配置
+1. 修改logstash.conf的输入输出配置
+```
+input {
+  redis {
+    host => "xxx.xxx.xxx.xxx"
+    port => "6379"
+    password => "123456"
+    db => "0"
+    data_type => "list"
+    key => "sh"
+  }
+}
+
+output {
+  elasticsearch {
+    hosts => ["xxx.xxx.xxx.xxx:9200"]
+    index => "%{[fields][app]}-%{[fields][env]}-%{+YYYY.MM.dd}"
+    user => "elastic"
+    password => "changeme"
+  }
+}
+
+```
+2. 重启Docker的Logstash容器
+```
+$ docker restart [Logstash CONTAINER ID]
+```
