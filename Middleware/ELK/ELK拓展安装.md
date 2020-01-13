@@ -50,9 +50,10 @@ filebeat.inputs:
     app: bbb
     host: xxx.xxx.xxx.xxx
     env: prod
-    #multiline.pattern: ^\[[0‐9]{14}\]
-    #multiline.negate: true
-    #multiline.match: after
+    #按正常日志时间开头匹配
+  multiline.pattern: ^[0-9]{14}
+  multiline.negate: true
+  multiline.match: after
 
 
 
