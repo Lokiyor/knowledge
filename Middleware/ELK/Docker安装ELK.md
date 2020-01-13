@@ -61,6 +61,7 @@ discovery.type：      single-node
 #加入跨域信息
 http.cors.enabled: true
 http.cors.allow-origin: "*"
+#http.cors.allow-headers: Authorization
 #开启用户认证
 #xpack.security.enabled: true
 #xpack.security.transport.ssl.enabled: true
@@ -73,6 +74,39 @@ $ exit
 ```
 $ docker restart es 
 ```
+#### 修改密码
+1. 进入容器内
+```
+$ docker exec -it [es CONTAINER ID] /bin/bash
+```
+2. 启动修改密码设置
+```
+$ ./bin/elasticsearch‐setup‐passwords interactive
+```
+出现以下信息，并按步修改密码
+```
+You will be prompted to enter passwords as the process progresses.
+Please confirm that you would like to continue [y/N]y
+
+Enter password for [elastic]: 
+Reenter password for [elastic]: 
+Enter password for [apm_system]: 
+Reenter password for [apm_system]: 
+Enter password for [kibana]: 
+Reenter password for [kibana]: 
+Enter password for [logstash_system]: 
+Reenter password for [logstash_system]: 
+Enter password for [beats_system]: 
+Reenter password for [beats_system]: 
+Enter password for [remote_monitoring_user]: 
+Reenter password for [remote_monitoring_user]: 
+Changed password for user [apm_system]
+Changed password for user [kibana]
+Changed password for user [logstash_system]
+Changed password for user [beats_system]
+Changed password for user [remote_monitoring_user]
+```
+3. 重启容器
 
 ### 安装
 
@@ -193,6 +227,10 @@ filter {
 output {
    elasticsearch{
      hosts=> "http://xxx.xxx.xxx.xxx:9200"
+     #设置的用户名密码
+     #user => "elastic"
+     #password => "Landleaf@2020"
+
    }
 }
 ```
