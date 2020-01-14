@@ -256,11 +256,10 @@ e=>end
 st->op->cond
 cond(yes)->e
 cond(no)->op
-&```
+&
+```
 效果如下：
 简书不支持流程图，所以截了个图
 
-
-
-
 流程图.png
+
