@@ -155,6 +155,8 @@ xpack.monitoring.ui.container.elasticsearch.enabled: true
 #配置用户密码
 #elasticsearch.username: "elastic"
 #elasticsearch.password: "changeme"
+#中文
+i18n.locale: "zh-CN"
 ```
 #### 重启容器
 1. 删除原有容器
