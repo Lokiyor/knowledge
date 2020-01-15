@@ -485,3 +485,197 @@ $ mongod --setParameter textSearchEnabled=true
 > db.posts.dropIndex("post_text_text")
 ```
 
+## MongoDB 正则表达式
+MongoDB 使用 $regex 操作符来设置匹配字符串的正则表达式。  
+MongoDB使用PCRE (Perl Compatible Regular Expression) 作为正则表达式语言。  
+不同于全文检索，我们使用正则表达式不需要做任何配置。
+### 使用正则表达式
+以下命令使用正则表达式查找posts集合中包含 runoob 字符串的文章：
+```
+> db.posts.find({post_text:{$regex:"runoob"}})
+```
+以上查询也可以写为：
+```
+> db.posts.find({post_text:/runoob/})
+```
+### 不区分大小写的正则表达式
+如果检索需要不区分大小写，我们可以设置 $options 为 $i。  
+以下命令将查找不区分大小写的字符串 runoob：
+```
+> db.posts.find({post_text:{$regex:"runoob",$options:"$i"}})
+```
+集合中会返回所有包含字符串 runoob 的数据，且不区分大小写：
+```
+{
+   "_id" : ObjectId("53493d37d852429c10000004"),
+   "post_text" : "hey! this is my post on  runoob", 
+   "tags" : [ "runoob" ]
+} 
+```
+### 数组元素使用正则表达式
+我们还可以在数组字段中使用正则表达式来查找内容。 这在标签的实现上非常有用，如果你需要查找包含以 run 开头的标签数据(ru 或 run 或 runoob)， 你可以使用以下代码：
+```
+> db.posts.find({tags:{$regex:"run"}})
+```
+### 优化正则表达式查询
+如果你的文档中字段设置了索引，那么使用索引相比于正则表达式匹配查找所有的数据查询速度更快。  
+如果正则表达式是前缀表达式，所有匹配的数据将以指定的前缀字符串为开始。例如： 如果正则表达式为 ^tut ，查询语句将查找以 tut 为开头的字符串。   
+这里面使用正则表达式有两点需要注意：  
+正则表达式中使用变量。一定要使用eval将组合的字符串进行转换，不能直接将字符串拼接后传入给表达式。否则没有报错信息，只是结果为空！实例如下：
+```
+var name=eval("/" + 变量值key +"/i"); 
+```
+以下是模糊查询包含title关键词, 且不区分大小写:
+```
+title:eval("/"+title+"/i")    // 等同于 title:{$regex:title,$Option:"$i"}   
+```
+##### $regex操作符的使用
+$regex操作符中的option选项可以改变正则匹配的默认行为，它包括i, m, x以及S四个选项，其含义如下
+
+- i: 忽略大小写，{\<field\>{\$regex/pattern/i}}，设置i选项后，模式中的字母会进行大小写不敏感匹配。
+- m: 多行匹配模式，{\<field\>{\$regex/pattern/,\$options:'m'}，m选项会更改^和$元字符的默认行为，分别使用与行的开头和结尾匹配，而不是与输入字符串的开头和结尾匹配。
+- x: 忽略非转义的空白字符，{\<field\>:{\$regex:/pattern/,\$options:'m'}，设置x选项后，正则表达式中的非转义的空白字符将被忽略，同时井号(#)被解释为注释的开头注，只能显式位于option选项中。
+- s: 单行匹配模式{\<field\>:{\$regex:/pattern/,\$options:'s'}，设置s选项后，会改变模式中的点号(.)元字符的默认行为，它会匹配所有字符，包括换行符(\n)，只能显式位于option选项中。
+使用$regex操作符时，需要注意下面几个问题:
+
+> i，m，x，s可以组合使用，例如:{name:{\$regex:/j*k/,\$options:"si"}}
+在设置索弓}的字段上进行正则匹配可以提高查询速度，而且当正则表达式使用的是前缀表达式时，查询速度会进一步提高，例如:{name:{$regex: /^joe/}
+
+
+## MongoDB 管理工具
+- Studio 3T (推荐)
+- Robo 3T (简化版)
+- Navicat for MongoDB
+- Rockmongo
+
+## MongoDB GridFS
+GridFS 用于存储和恢复那些超过16M（BSON文件限制）的文件(如：图片、音频、视频等)。  
+GridFS 也是文件存储的一种方式，但是它是存储在MonoDB的集合中。  
+GridFS 可以更好的存储大于16M的文件。  
+GridFS 会将大文件对象分割成多个小的chunk(文件片段),一般为256k/个,每个chunk将作为MongoDB的一个文档(document)被存储在chunks集合中。  
+GridFS 用两个集合来存储一个文件：fs.files与fs.chunks。  
+每个文件的实际内容被存在chunks(二进制数据)中,和文件有关的meta数据(filename,content_type,还有用户自定义的属性)将会被存在files集合中。  
+以下是简单的 fs.files 集合文档：
+```
+{
+   "filename": "test.txt",
+   "chunkSize": NumberInt(261120),
+   "uploadDate": ISODate("2014-04-13T11:32:33.557Z"),
+   "md5": "7b762939321e146569b07f72c62cca4f",
+   "length": NumberInt(646)
+}
+```
+以下是简单的 fs.chunks 集合文档：
+```
+{
+   "files_id": ObjectId("534a75d19f54bfec8a2fe44b"),
+   "n": NumberInt(0),
+   "data": "Mongo Binary Data"
+}
+```
+
+## MongoDB 固定集合（Capped Collections）
+MongoDB 固定集合（Capped Collections）是性能出色且有着固定大小的集合，对于大小固定，我们可以想象其就像一个环形队列，当集合空间用完后，再插入的元素就会覆盖最初始的头部的元素！
+### 创建固定集合
+我们通过createCollection来创建一个固定集合，且capped选项设置为true：
+```
+> db.createCollection("cappedLogCollection",{capped:true,size:10000})
+```
+还可以指定文档个数,加上max:1000属性：
+```
+> db.createCollection("cappedLogCollection",{capped:true,size:10000,max:1000})
+```
+判断集合是否为固定集合:
+```
+> db.cappedLogCollection.isCapped()
+```
+如果需要将已存在的集合转换为固定集合可以使用以下命令：
+```
+> db.runCommand({"convertToCapped":"posts",size:10000})
+```
+以上代码将我们已存在的 posts 集合转换为固定集合。
+
+- size 是整个集合空间大小，单位为【KB】
+- max 是集合文档个数上线，单位是【个】
+### 固定集合查询
+固定集合文档按照插入顺序储存的,默认情况下查询就是按照插入顺序返回的,也可以使用$natural调整返回顺序。
+```
+> db.cappedLogCollection.find().sort({$natural:-1})
+```
+### 固定集合的功能特点
+可以插入及更新,但更新不能超出collection的大小,否则更新失败,不允许删除,但是可以调用drop()删除集合中的所有行,但是drop后需要显式地重建集合。   
+在32位机子上一个cappped collection的最大值约为482.5M,64位上只受系统文件大小的限制。
+### 固定集合属性及用法
+#### 属性
+属性1:对固定集合进行插入速度极快
+属性2:按照插入顺序的查询输出速度极快
+属性3:能够在插入最新数据时,淘汰最早的数据
+#### 用法
+用法1:储存日志信息
+用法2:缓存一些少量的文档
+
+## MongoDB 自动增长
+MongoDB 没有像 SQL 一样有自动增长的功能， MongoDB 的 _id 是系统自动生成的12字节唯一标识。  
+但在某些情况下，我们可能需要实现 ObjectId 自动增长功能。  
+由于 MongoDB 没有实现这个功能，我们可以通过编程的方式来实现，以下我们将在 counters 集合中实现_id字段自动增长。
+### 使用 counters 集合
+考虑以下 products 文档。我们希望 _id 字段实现 从 1,2,3,4 到 n 的自动增长功能。
+```
+{
+  "_id":1,
+  "product_name": "Apple iPhone",
+  "category": "mobiles"
+}
+```
+为此，创建 counters 集合，序列字段值可以实现自动长：
+```
+> db.createCollection("counters")
+```
+现在我们向 counters 集合中插入以下文档，使用 productid 作为 key:
+```
+{
+  "_id":"productid",
+  "sequence_value": 0
+}
+```
+sequence_value 字段是序列通过自动增长后的一个值。  
+使用以下命令插入 counters 集合的序列文档中：
+```
+> db.counters.insert({_id:"productid",sequence_value:0})
+```
+### 创建 Javascript 函数
+现在，我们创建函数 getNextSequenceValue 来作为序列名的输入， 指定的序列会自动增长 1 并返回最新序列值。在本文的实例中序列名为 productid 。
+```
+> function getNextSequenceValue(sequenceName){
+   var sequenceDocument = db.counters.findAndModify(
+      {
+         query:{_id: sequenceName },
+         update: {$inc:{sequence_value:1}},
+         "new":true
+      });
+   return sequenceDocument.sequence_value;
+}
+```
+### 使用 Javascript 函数
+接下来我们将使用 getNextSequenceValue 函数创建一个新的文档， 并设置文档 _id 自动为返回的序列值：
+```
+> db.products.insert({
+   "_id":getNextSequenceValue("productid"),
+   "product_name":"Apple iPhone",
+   "category":"mobiles"})
+
+> db.products.insert({
+   "_id":getNextSequenceValue("productid"),
+   "product_name":"Samsung S3",
+   "category":"mobiles"})
+```
+就如你所看到的，我们使用 getNextSequenceValue 函数来设置 _id 字段。  
+为了验证函数是否有效，我们可以使用以下命令读取文档：
+```
+> db.products.find()
+```
+以上命令将返回以下结果，我们发现 _id 字段是自增长的：
+```
+{ "_id" : 1, "product_name" : "Apple iPhone", "category" : "mobiles"}
+{ "_id" : 2, "product_name" : "Samsung S3", "category" : "mobiles" }
+```
