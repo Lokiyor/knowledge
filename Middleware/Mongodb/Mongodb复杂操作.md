@@ -529,6 +529,20 @@ var name=eval("/" + 变量值key +"/i");
 ```
 title:eval("/"+title+"/i")    // 等同于 title:{$regex:title,$Option:"$i"}   
 ```
+##### regex操作符的介绍
+MongoDB使用$regex操作符来设置匹配字符串的正则表达式，使用PCRE(Pert Compatible Regular Expression)作为正则表达式语言。
+- regex操作符
+  - {\<field\>:{\$regex:/pattern/，\$options:’\<options\>’}}
+  - {\<field\>:{\$regex:’pattern’，\$options:’\<options\>’}}
+  - {\<field\>:{\$regex:/pattern/\<options\>}}
+- 正则表达式对象
+  - {\<field\>: /pattern/\<options\>}
+
+$regex与正则表达式对象的区别:  
+- 在\$in操作符中只能使用正则表达式对象，例如:{name:{\$in:[/\^joe/i,/^jack/}}
+- 在使用隐式的\$and操作符中，只能使用\$regex，例如:{name:{\$regex:/^jo/i, $nin:['john']}}
+- 当option选项中包含X或S选项时，只能使用\$regex，例如:{name:{\$regex:/m.*line/,\$options:"si"}}
+
 ##### $regex操作符的使用
 $regex操作符中的option选项可以改变正则匹配的默认行为，它包括i, m, x以及S四个选项，其含义如下
 
