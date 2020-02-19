@@ -51,6 +51,11 @@ $ docker exec -it [CONTAINER ID/CONTAINER NAME] /bin/bash
 $ exit
 ```
 
+#### 容器文件拷贝
+```
+$ docker cp [CONTAINER ID]:/etc/conf/xxxx /data/docker/conf
+```
+
 #### 查看容器日志
 ```
 $ docker logs [OPTIONS] [CONTAINER ID]
