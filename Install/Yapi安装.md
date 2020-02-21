@@ -68,3 +68,22 @@ $ yapi server
 4. 根据部署日志的信息，启动服务器
 * 在yapi目录下启动服务: node vendors/server/app.js
     * 后台启动: nohup (上指令) & 
+> 此项后台启动会导致 关闭shell 会关闭进程
+
+### 后台启动方法
+#### 下载pm2
+pm2为node后台进程管理器
+```
+$ npm install pm2@lastest -g
+```
+#### 配置软链
+配置软链，全局配置
+```
+$ ln -s home/aaa/pm2/nodejs/node-v10.16.1-linux-x64/lib/node_modules/pm2/bin/pm2 /usr/local/bin/pm2
+### 查看是否配置成功，若能显示，则说明配置成功
+$ pm2 -v
+```
+#### 后台启动yapi
+```
+$ pm2 start /home/aaa/yapi/vendors/server/app.js
+```
