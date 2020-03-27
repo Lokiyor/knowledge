@@ -45,10 +45,27 @@ $ docker rm  [CONTAINER ID]
 #### 进入容器
 ```
 $ docker exec -it [CONTAINER ID/CONTAINER NAME] /bin/bash
+##
+$ docker exec -it [CONTAINER ID/CONTAINER NAME] /bin/sh
 ```
 #### 退出容器
 ```
 $ exit
+```
+
+
+### 以下操作慎用（搭建测试集群的时候可使用）
+#### 停用全部运行中的容器
+```
+$ docker stop $(docker ps -q)
+```
+#### 删除全部容器
+```
+$ docker rm $(docker ps -aq)
+```
+#### 一条命令实现停用并删除容器
+```
+$ docker stop $(docker ps -q) & docker rm $(docker ps -aq)
 ```
 
 #### 容器文件拷贝

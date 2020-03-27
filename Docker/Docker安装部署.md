@@ -77,3 +77,42 @@ $ systemctl restart docker
 $ systemctl start docker
 $ systemctl enable docker
 ```
+
+
+## Ubuntu 安装
+#### 移除旧版本
+```
+$ sudo apt-get remove docker docker-engine docker-ce docker.io
+```
+#### 更新apt包索引
+```
+$ sudo apt-get update
+```
+#### 安装以下包以使apt可以通过HTTPS使用存储库（repository）
+```
+$ sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+```
+#### 添加Docker官方的GPG密钥
+```
+$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+```
+#### 使用下面的命令来设置stable存储库
+```
+$ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+```
+#### 安装最新版本的Docker CE
+```
+$ sudo apt-get install -y docker-ce
+```
+
+#### 安装其他版本（可选）
+- 在生产系统上，可能会需要应该安装一个特定版本的Docker CE，而不是总是使用最新版本
+```
+$ apt-cache madison docker-ce
+```
+安装特定版本
+```
+$ sudo apt-get install docker-ce=<VERSION>
+```
+#### 同上（设置镜像地址）
+#### 设置启动和开机启动
