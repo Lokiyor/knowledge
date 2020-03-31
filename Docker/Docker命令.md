@@ -52,6 +52,10 @@ $ docker exec -it [CONTAINER ID/CONTAINER NAME] /bin/sh
 ```
 $ exit
 ```
+#### 查看容器信息
+```
+$ docker inspect [CONTAINER ID]
+```
 
 
 ### 以下操作慎用（搭建测试集群的时候可使用）
