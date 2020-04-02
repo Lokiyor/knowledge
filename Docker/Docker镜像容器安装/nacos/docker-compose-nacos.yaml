@@ -1,0 +1,41 @@
+version: '3' 
+services:
+  # nacos-server服务注册与发现，配置中心服务    
+  docker-nacos-server:
+    image: nacos/nacos-server:latest
+    container_name: nacos-server-1
+    ports:
+      - "8848:8848"
+      - "9555:9555"
+    networks: 
+      - nacos_net
+    restart: on-failure
+    privileged: true
+    environment:
+      PREFER_HOST_MODE: ip #如果支持主机名可以使用hostname,否则使用ip，默认也是ip
+      SPRING_DATASOURCE_PLATFORM: mysql #数据源平台 仅支持mysql或不保存empty
+      NACOS_SERVER_IP: xxx.xxx.xxx.xxx #多网卡情况下，指定ip或网卡,可配内网ip
+      NACOS_SERVERS: xxx.xxx.xxx.xxx:8848,xxx.xxx.xxx.xxx:8848 #集群中其它节点[ip1:port,ip2:port,ip3:port]
+      MYSQL_SERVICE_HOST: xxx.xxx.xxx.xxx #mysql配置，Master为主节点，Slave为从节点，这里配外网ip
+      MYSQL_SERVICE_PORT: 3306
+      MYSQL_SERVICE_DB_NAME: nacos
+      MYSQL_SERVICE_USER: root
+      MYSQL_SERVICE_PASSWORD: 123456
+      MYSQL_DATABASE_NUM: 1 #数据源数量(1.1.14前默认为2，后默认为1，此处有坑)
+      #MYSQL_SLAVE_SERVICE_HOST: 1.1.1.1
+      #MYSQL_SLAVE_SERVICE_PORT: 3341
+      #JVM调优参数
+      #JVM_XMS:  #-Xms default :2g
+      #JVM_XMX:  #-Xmx default :2g
+      #JVM_XMN:  #-Xmn default :1g
+      #JVM_MS:   #-XX:MetaspaceSize default :128m
+      #JVM_MMS:  #-XX:MaxMetaspaceSize default :320m
+      #NACOS_DEBUG: n #是否开启远程debug，y/n，默认n
+      #TOMCAT_ACCESSLOG_ENABLED: true #是否开始tomcat访问日志的记录，默认false
+    volumes:
+      - /data/docker/nacos/logs:/home/nacos/logs #日志输出目录
+      - /data/docker/nacos/init.d/custom.properties:/home/nacos/init.d/custom.properties #../init.d/custom.properties内包含很多自定义配置，可按需配置
+
+networks:
+  nacos_net:
+    driver: bridge
