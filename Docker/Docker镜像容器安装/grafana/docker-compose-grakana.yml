@@ -1,0 +1,18 @@
+version: '2'
+## 设置service 名称 外挂目录等
+services:
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+     - "3000:3000"
+    environment:
+      GF_RENDERING_SERVER_URL: http://renderer:8081/render
+      GF_RENDERING_CALLBACK_URL: http://grafana:3000/
+      GF_LOG_FILTERS: rendering:debug
+   # 看需求配置
+   # volumes:
+   #  - /data/docker/grafana/grafana-storage:/var/lib/grafana #grafana仓库
+  renderer:
+    image: grafana/grafana-image-renderer:latest
+    ports:
+      - 8081

@@ -1,6 +1,7 @@
 # Docker搭建Nacos集群
 ## 安装mysql，及初始化
 ### 首先得准备mysql
+[docker安装mysql](https://github.com/Lokiyor/knowledge/blob/master/Docker/Docker%E9%95%9C%E5%83%8F%E5%AE%B9%E5%99%A8%E5%AE%89%E8%A3%85/Mysql/Docker%E5%AE%89%E8%A3%85%E5%8D%95%E6%9C%BAMysql.md)
 > 这里mysql5.7和mysql8 官方好像都支持，这里使用得是 docker启动得mysql5.7
 
 ### 初始化数据
