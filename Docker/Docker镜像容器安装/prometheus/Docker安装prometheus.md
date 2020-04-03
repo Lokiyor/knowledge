@@ -43,5 +43,5 @@ scrape_configs:
 ```
 $ docker run -d --name nacos-prometheus --net=host -p 9090:9090 -v /data/docker/prometheus/conf/prometheus.yml:/etc/prometheus/prometheus.yml  prom/prometheus
 ```
-> 此处本有坑, 不配置 --net=host 的时候， -p 9090:9090 是有效的， 但是内外网都访问不到9090端口，所以就算启动成功，也没用
+> 此处本有坑, 不配置 --net=host 的时候， -p 9090:9090 是有效的， 但是内外网都访问不到9090端口，所以就算启动成功，也没用  
 > 加上此配置，-p 9090:9090 是无效的，所以prometheus默认的9090端口占用了宿主机的9090端口，此时是可以访问的

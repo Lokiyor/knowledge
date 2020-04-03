@@ -27,7 +27,7 @@ $ mkdir -p /data/docker/nacos/init.d
 #### 配置docker-compose启动文件
 每台服务器配置不同的 docker-compose-nacos.yaml 文件，放在 /data/docker/nacos/ 目录下  
 - docker-compose-nacos.yaml 文件在同级目录下，每台宿主机根据自身情况修改相应ip
-> 此处有坑，哈哈哈哈，坑点参考[移除数据库主从镜像配置](https://github.com/nacos-group/nacos-docker/wiki/%E7%A7%BB%E9%99%A4%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%BB%E4%BB%8E%E9%95%9C%E5%83%8F%E9%85%8D%E7%BD%AE)
+> 此处有坑，哈哈哈哈，坑点参考[移除数据库主从镜像配置](https://github.com/nacos-group/nacos-docker/wiki/%E7%A7%BB%E9%99%A4%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%BB%E4%BB%8E%E9%95%9C%E5%83%8F%E9%85%8D%E7%BD%AE)  
 > 由于nacos官方文档没有更新此项，而在github上更新说明，需注意
 
 #### 启动docker-nacos
