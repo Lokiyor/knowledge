@@ -1,0 +1,48 @@
+version: '3.3'
+services:
+  elasticsearch:
+    image: elasticsearch:6.8.8
+    container_name: skywalking-es
+    restart: always
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      discovery.type: single-node
+      TZ: Asia/Shanghai
+  oap:
+    image: apache/skywalking-oap-server:7.0.0-es6
+    container_name: skywalking-oap
+    depends_on:
+      - elasticsearch
+    links:
+      - elasticsearch
+    restart: always
+    ports:
+      - 11800:11800
+      - 12800:12800
+    environment:
+      TZ: Asia/Shanghai
+      SW_STORAGE: elasticsearch
+      # SW_NAMESPACE: "es-master"
+      SW_STORAGE_ES_CLUSTER_NODES: elasticsearch:9200
+      # SW_STORAGE_ES_HTTP_PROTOCOL: "http"
+      # SW_SW_STORAGE_ES_SSL_JKS_PATH: "../es_keystore.jks"
+      # SW_SW_STORAGE_ES_SSL_JKS_PASS: ""
+      # SW_ES_USER: "elastic"
+      # SW_ES_PASSWORD: "Landleaf@2020"
+#    volumes:
+#      - ./config:/skywalking/config
+  ui:
+    image: apache/skywalking-ui:7.0.0
+    container_name: skywalking-ui
+    depends_on:
+      - oap
+    links:
+      - oap
+    restart: always
+    ports:
+      - 18080:8080
+    environment:
+      SW_OAP_ADDRESS: oap:12800
+      TZ: Asia/Shanghai
