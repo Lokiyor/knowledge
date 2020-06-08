@@ -1,0 +1,22 @@
+# Lombok介绍及使用
+
+- @Data：注解在类上，将类提供的所有属性都添加get、set方法，并添加、equals、canEquals、hashCode、toString方法
+- @Setter：注解在类上，为所有属性添加set方法、注解在属性上为该属性提供set方法
+- @Getter：注解在类上，为所有的属性添加get方法、注解在属性上为该属性提供get方法
+- @NoArgsConstructor：创建一个无参构造函数
+- @AllArgsConstructor：创建一个全参构造函数
+- @ToString：创建一个toString方法
+- @EqualsAndHashCode：重写equals和hashcode方法。
+- @Builder：使用builder模式创建对象
+- @NotNull：在参数中使用时，如果调用时传了null值，就会抛出空指针异常
+- @Accessors(chain = true)使用链式设置属性，set方法返回的是this对象。
+- @Value: 用在类上，是@Data的不可变形式，相当于为属性添加final声明，只提供getter方法，而不提供setter方法
+- @Synchronized 用于方法，可以锁定指定的对象，如果不指定，则默认创建一个对象锁定
+- @Log：作用于类，创建一个log属性
+- @RequiredArgsConstructor：创建对象, 例: 在class上添加@RequiredArgsConstructor(staticName = "of")会创建生成一个静态方法
+- @UtilityClass:工具类
+- @ExtensionMethod:设置父类
+- @FieldDefaults：设置属性的使用范围，如private、public等，也可以设置属性是否被final修饰。
+- @Cleanup: 关闭流、连接点. 用于流等可以不需要关闭使用流对象.
+- @SneakyThrows：抛异常
+- @Slf4j：打印日志
